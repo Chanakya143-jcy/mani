@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Details Entry Form</title>
+  <style>
+    :root {
+      --bg: #0f172a;        /* slate-900 */
+      --card: #111827;      /* gray-900 */
+      --muted: #94a3b8;     /* slate-400 */
+      --text: #e5e7eb;      /* gray-200 */
+      --accent: #22d3ee;    /* cyan-400 */
+      --accent-2: #a78bfa;  /* violet-400 */
+      --danger: #ef4444;    /* red-500 */
+      --ok: #22c55e;        /* green-500 */
+      --ring: rgba(34,211,238,.35);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0; background: linear-gradient(135deg, #0b1022, #121a31);
+      color: var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+    }
+    .wrap {
+      max-width: 960px; margin: 40px auto; padding: 20px;
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px; padding: 28px;
+      box-shadow: 0 20px 45px rgba(0,0,0,.35), inset 0 0 40px rgba(255,255,255,.02);
+      backdrop-filter: blur(6px);
+    }
+    h1 {
+      margin: 0 0 6px; font-size: clamp(22px, 3.2vw, 34px);
+      letter-spacing: .3px;
+    }
+    p.lead { margin: 0 0 22px; color: var(--muted) }
+    .grid {
+      display: grid; gap: 16px;
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .col-12 { grid-column: span 12; }
+    .col-6  { grid-column: span 12; }
+    .col-4  { grid-column: span 12; }
+    @media (min-width: 700px) {
+      .col-6 { grid-column: span 6; }
+      .col-4 { grid-column: span 4; }
+    }
+    label {
+      display: block; font-size: 14px; color: var(--muted); margin: 2px 0 8px;
+    }
+    input[type="text"], input[type="email"], input[type="tel"], input[type="date"],
+    input[type="number"], select, textarea, input[type="file"] {
+      width: 100%; padding: 12px 14px; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14); background: rgba(2,6,23,.6);
+      color: var(--text); outline: none; transition: box-shadow .15s, border-color .15s, transform .05s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent); box-shadow: 0 0 0 4px var(--ring);
+    }
+    textarea { min-height: 110px; resize: vertical; }
+    .row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip {
+      display: inline-flex; gap: 8px; align-items: center; padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,.12); border-radius: 999px; cursor: pointer;
+      background: rgba(255,255,255,.03);
+    }
+    .chip input { accent-color: var(--accent-2); transform: translateY(1px); }
+    .radio { display: inline-flex; gap: 8px; align-items: center; margin-right: 14px; }
+    .radio input { accent-color: var(--accent); }
+    .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .btnbar { display: flex; gap: 12px; justify-content: flex-end; margin-top: 6px; }
+    button {
+      border: none; padding: 12px 18px; border-radius: 12px; font-weight: 600; cursor: pointer;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #061019; box-shadow: 0 10px 24px rgba(34,211,238,.25);
+      transition: transform .06s ease-in-out, filter .2s;
+    }
+    button:hover { filter: brightness(1.07); }
+    button:active { transform: translateY(1px) scale(.995); }
+    .btn-secondary {
+      background: transparent; color: var(--text);
+      border: 1px solid rgba(255,255,255,.18); box-shadow: none;
+    }
+    .req { color: var(--accent); margin-left: 2px; }
+    .error { color: var(--danger); font-size: 12px; margin-top: 6px; display: none; }
+    .success {
+      display: none; margin-top: 18px; padding: 14px 16px; border-radius: 12px;
+      background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.35); color: #b7f7d0;
+    }
+    .footer-note { margin-top: 18px; color: var(--muted); font-size: 12px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Details Entry Form</h1>
+      <p class="lead">Fill in your details below. Fields marked with <span class="req">*</span> are required.</p>
+
+      <!-- Change action to your endpoint when you have a backend -->
+      <form id="detailsForm" novalidate>
+        <div class="grid">
+          <div class="col-6">
+            <label for="fullName">Full Name <span class="req">*</span></label>
+            <input id="fullName" name="fullName" type="text" placeholder="e.g., Priya Sharma" required />
+            <div class="error" data-err-for="fullName">Please enter your name.</div>
+          </div>
+
+          <div class="col-6">
+            <label for="email">Email <span class="req">*</span></label>
+            <input id="email" name="email" type="email" placeholder="name@example.com" required />
+            <div class="error" data-err-for="email">Please enter a valid email.</div>
+          </div>
+
+          <div class="col-6">
+            <label for="phone">Phone <span class="req">*</span></label>
+            <input id="phone" name="phone" type="tel" inputmode="tel"
+                   placeholder="+91 98765 43210"
+                   pattern="^(\+?\d{1,3}[- ]?)?\d{10}$"
+                   required />
+            <div class="hint">10 digits (add country code if needed).</div>
+            <div class="error" data-err-for="phone">Please enter a valid phone number.</div>
+          </div>
+
+          <div class="col-6">
+            <label for="dob">Date of Birth <span class="req">*</span></label>
+            <input id="dob" name="dob" type="date" required />
+            <div class="error" data-err-for="dob">Please select your birth date.</div>
+          </div>
+
+          <div class="col-12">
+            <label>Gender <span class="req">*</span></label>
+            <div class="row" role="radiogroup" aria-labelledby="gender">
+              <label class="radio"><input type="radio" name="gender" value="Female" required /> Female</label>
+              <label class="radio"><input type="radio" name="gender" value="Male" /> Male</label>
+              <label class="radio"><input type="radio" name="gender" value="Other" /> Other</label>
+            </div>
+            <div class="error" data-err-for="gender">Please choose a gender.</div>
+          </div>
+
+          <div class="col-6">
+            <label for="country">Country <span class="req">*</span></label>
+            <select id="country" name="country" required>
+              <option value="" selected disabled>Choose a country</option>
+              <option>India</option>
+              <option>United States</option>
+              <option>United Kingdom</option>
+              <option>Canada</option>
+              <option>Australia</option>
+              <option>Other</option>
+            </select>
+            <div class="error" data-err-for="country">Please select a country.</div>
+          </div>
+
+          <div class="col-6">
+            <label for="city">City</label>
+            <input id="city" name="city" type="text" placeholder="e.g., Hyderabad" />
+          </div>
+
+          <div class="col-12">
+            <label for="address">Address</label>
+            <textarea id="address" name="address" placeholder="Street, area, landmark"></textarea>
+          </div>
+
+          <div class="col-4">
+            <label for="state">State</label>
+            <input id="state" name="state" type="text" placeholder="e.g., Telangana" />
+          </div>
+
+          <div class="col-4">
+            <label for="zip">PIN / ZIP</label>
+            <input id="zip" name="zip" type="text" inputmode="numeric" pattern="^\d{4,10}$" placeholder="e.g., 500001" />
+            <div class="error" data-err-for="zip">Please enter a valid PIN/ZIP.</div>
+          </div>
+
+          <div class="col-4">
+            <label for="photo">Upload Photo</label>
+            <input id="photo" name="photo" type="file" accept="image/*" />
+            <div class="hint">PNG/JPG recommended.</div>
+          </div>
+
+          <div class="col-12">
+            <label>Skills</label>
+            <div class="chips">
+              <label class="chip"><input type="checkbox" name="skills" value="C" /> C</label>
+              <label class="chip"><input type="checkbox" name="skills" value="C++" /> C++</label>
+              <label class="chip"><input type="checkbox" name="skills" value="Python" /> Python</label>
+              <label class="chip"><input type="checkbox" name="skills" value="Java" /> Java</label>
+              <label class="chip"><input type="checkbox" name="skills" value="Web" /> Web</label>
+              <label class="chip"><input type="checkbox" name="skills" value="MATLAB" /> MATLAB</label>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label for="about">About You</label>
+            <textarea id="about" name="about" placeholder="Short bio, goals, or anything you'd like to share."></textarea>
+          </div>
+
+          <div class="col-12">
+            <label class="row" style="align-items:flex-start;">
+              <input type="checkbox" id="agree" name="agree" required style="margin-top:3px; accent-color: var(--accent);" />
+              <span>I confirm the details provided are correct. <span class="req">*</span></span>
+            </label>
+            <div class="error" data-err-for="agree">Please confirm to proceed.</div>
+          </div>
+
+          <div class="col-12 btnbar">
+            <button type="reset" class="btn-secondary">Reset</button>
+            <button type="submit">Submit</button>
+          </div>
+
+          <div class="col-12 success" id="successMsg" role="status" aria-live="polite">
+            ✅ Your details were captured (demo). Open the browser console to see the JSON payload.
+          </div>
+        </div>
+      </form>
+
+      <div class="footer-note">Tip: connect this form to a backend endpoint (Node, Python, PHP, or a no-code form relay) to store submissions.</div>
+    </div>
+  </div>
+
+  <script>
+    // Simple client-side validation + demo submit handler
+    const form = document.getElementById('detailsForm');
+    const success = document.getElementById('successMsg');
+
+    function showError(nameOrId, ok) {
+      const el = document.querySelector(`.error[data-err-for="${nameOrId}"]`);
+      if (!el) return;
+      el.style.display = ok ? 'none' : 'block';
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      success.style.display = 'none';
+
+      // Built-in HTML validity first
+      let valid = form.checkValidity();
+      // Custom checks for radios
+      const genderChecked = !!form.querySelector('input[name="gender"]:checked');
+      if (!genderChecked) valid = false;
+
+      // Show/hide specific error hints
+      showError('fullName', form.fullName.checkValidity());
+      showError('email', form.email.checkValidity());
+      showError('phone', form.phone.checkValidity());
+      showError('dob', form.dob.checkValidity());
+      showError('gender', genderChecked);
+      showError('country', form.country.checkValidity());
+      showError('zip', !form.zip.value || form.zip.checkValidity());
+      showError('agree', form.agree.checked);
+
+      if (!valid) {
+        // Scroll to first error
+        const firstErr = document.querySelector('.error[style*="block"]');
+        if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      // Collect data (demo)
+      const fd = new FormData(form);
+      const data = Object.fromEntries(fd.entries());
+
+      // Collect multiple checkboxes "skills"
+      data.skills = fd.getAll('skills');
+
+      // File info preview (if any)
+      const file = fd.get('photo');
+      if (file && file.name) data.photo = { name: file.name, size: file.size };
+
+      console.log('Submitted payload (demo):', data);
+
+      // Show success note
+      success.style.display = 'block';
+
+      // Optional: actually send to a server
+      // fetch('/your-endpoint', { method: 'POST', body: fd });
+    });
+
+    // Visual cue on invalid fields when user leaves them
+    Array.from(form.elements).forEach(el => {
+      el.addEventListener('blur', () => {
+        if (el.name === 'gender') return;
+        const ok = el.name ? el.checkValidity() : true;
+        if (el.name) showError(el.name, ok);
+      });
+    });
+  </script>
+</body>
+</html>
