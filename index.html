@@ -1,239 +1,349 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Details Entry Form</title>
-  <style>
-    :root {
-      --bg: #0f172a;        /* slate-900 */
-      --card: #111827;      /* gray-900 */
-      --muted: #94a3b8;     /* slate-400 */
-      --text: #e5e7eb;      /* gray-200 */
-      --accent: #22d3ee;    /* cyan-400 */
-      --accent-2: #a78bfa;  /* violet-400 */
-      --danger: #ef4444;    /* red-500 */
-      --ok: #22c55e;        /* green-500 */
-      --ring: rgba(34,211,238,.35);
-    }
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0; padding: 0;
-      background: linear-gradient(135deg, #0b1022, #121a31);
-      color: var(--text);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
-    }
-    .wrap { max-width: 960px; margin: 40px auto; padding: 20px; }
-    .card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px;
-      padding: 28px;
-      box-shadow: 0 20px 45px rgba(0,0,0,.35), inset 0 0 40px rgba(255,255,255,.02);
-      backdrop-filter: blur(6px);
-    }
-    h1 { margin: 0 0 6px; font-size: clamp(22px, 3.2vw, 34px); letter-spacing: .3px; }
-    p.lead { margin: 0 0 22px; color: var(--muted) }
-    .grid { display: grid; gap: 16px; grid-template-columns: repeat(12, 1fr); }
-    .col-12 { grid-column: span 12; }
-    .col-6 { grid-column: span 12; }
-    .col-4 { grid-column: span 12; }
-    @media (min-width: 700px) {
-      .col-6 { grid-column: span 6; }
-      .col-4 { grid-column: span 4; }
-    }
-    label { display: block; font-size: 14px; color: var(--muted); margin: 2px 0 8px; }
-    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="number"], select, textarea, input[type="file"] {
-      width: 100%; padding: 12px 14px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(2,6,23,.6);
-      color: var(--text);
-      outline: none;
-      transition: box-shadow .15s, border-color .15s, transform .05s;
-    }
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 4px var(--ring);
-    }
-    textarea { min-height: 110px; resize: vertical; }
-    .row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
-    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
-    .chip { display: inline-flex; gap: 8px; align-items: center; padding: 8px 12px;
-      border: 1px solid rgba(255,255,255,.12); border-radius: 999px;
-      cursor: pointer; background: rgba(255,255,255,.03);
-    }
-    .chip input { accent-color: var(--accent-2); transform: translateY(1px); }
-    .radio { display: inline-flex; gap: 8px; align-items: center; margin-right: 14px; }
-    .radio input { accent-color: var(--accent); }
-    .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
-    .btnbar { display: flex; gap: 12px; justify-content: flex-end; margin-top: 6px; }
-    button {
-      border: none; padding: 12px 18px; border-radius: 12px; font-weight: 600;
-      cursor: pointer;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #061019;
-      box-shadow: 0 10px 24px rgba(34,211,238,.25);
-      transition: transform .06s ease-in-out, filter .2s;
-    }
-    button:hover { filter: brightness(1.07); }
-    button:active { transform: translateY(1px) scale(.995); }
-    .btn-secondary {
-      background: transparent; color: var(--text);
-      border: 1px solid rgba(255,255,255,.18); box-shadow: none;
-    }
-    .req { color: var(--accent); margin-left: 2px; }
-    .error { color: var(--danger); font-size: 12px; margin-top: 6px; display: none; }
-    .success {
-      display: none; margin-top: 18px; padding: 14px 16px;
-      border-radius: 12px;
-      background: rgba(16,185,129,.12);
-      border: 1px solid rgba(16,185,129,.35);
-      color: #b7f7d0;
-    }
-    .footer-note { margin-top: 18px; color: var(--muted); font-size: 12px; text-align: center; }
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <div class="card">
-      <h1>Details Entry Form</h1>
-      <p class="lead">Fill in your details below. Fields marked with <span class="req">*</span> are required.</p>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Details Entry Form</title>
+    <style>
+      :root {
+        --bg: #0f172a;        /* slate-900 */
+        --card: #111827;      /* gray-900 */
+        --muted: #94a3b8;     /* slate-400 */
+        --text: #e5e7eb;      /* gray-200 */
+        --accent: #22d3ee;    /* cyan-400 */
+        --accent-2: #a78bfa;  /* violet-400 */
+        --danger: #ef4444;    /* red-500 */
+        --ok: #22c55e;        /* green-500 */
+        --ring: rgba(34,211,238,.35);
+      }
 
-      <form id="detailsForm" novalidate>
-        <div class="grid">
-          <div class="col-6">
-            <label for="fullName">Full Name <span class="req">*</span></label>
-            <input id="fullName" name="fullName" type="text" placeholder="e.g., Priya Sharma" required />
-          </div>
+      * {
+        box-sizing: border-box;
+      }
 
-          <div class="col-6">
-            <label for="email">Email <span class="req">*</span></label>
-            <input id="email" name="email" type="email" placeholder="name@example.com" required />
-          </div>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #0b1022, #121a31);
+        color: var(--text);
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      }
 
-          <div class="col-6">
-            <label for="phone">Phone <span class="req">*</span></label>
-            <input id="phone" name="phone" type="tel" placeholder="+91 98765 43210" pattern="^(\+?\d{1,3}[- ]?)?\d{10}$" required />
-            <div class="hint">10 digits (add country code if needed).</div>
-          </div>
+      .wrap {
+        max-width: 960px;
+        margin: 40px auto;
+        padding: 20px;
+      }
 
-          <div class="col-6">
-            <label for="dob">Date of Birth <span class="req">*</span></label>
-            <input id="dob" name="dob" type="date" required />
-          </div>
+      .card {
+        background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 20px;
+        padding: 28px;
+        box-shadow: 0 20px 45px rgba(0,0,0,.35), inset 0 0 40px rgba(255,255,255,.02);
+        backdrop-filter: blur(6px);
+      }
 
-          <div class="col-12">
-            <label>Gender <span class="req">*</span></label>
-            <div class="row">
-              <label class="radio"><input type="radio" name="gender" value="Female" required /> Female</label>
-              <label class="radio"><input type="radio" name="gender" value="Male" /> Male</label>
-              <label class="radio"><input type="radio" name="gender" value="Other" /> Other</label>
+      h1 {
+        margin: 0 0 6px;
+        font-size: clamp(22px, 3.2vw, 34px);
+        letter-spacing: .3px;
+      }
+
+      p.lead {
+        margin: 0 0 22px;
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(12, 1fr);
+      }
+
+      .col-12 { grid-column: span 12; }
+      .col-6 { grid-column: span 12; }
+      .col-4 { grid-column: span 12; }
+
+      @media (min-width: 700px) {
+        .col-6 { grid-column: span 6; }
+        .col-4 { grid-column: span 4; }
+      }
+
+      label {
+        display: block;
+        font-size: 14px;
+        color: var(--muted);
+        margin: 2px 0 8px;
+      }
+
+      input[type="text"], input[type="email"], input[type="tel"],
+      input[type="date"], input[type="number"], select,
+      textarea, input[type="file"] {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,.14);
+        background: rgba(2,6,23,.6);
+        color: var(--text);
+        outline: none;
+        transition: box-shadow .15s, border-color .15s, transform .05s;
+      }
+
+      input:focus, select:focus, textarea:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px var(--ring);
+      }
+
+      textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+
+      .row {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .chips {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .chip {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        padding: 8px 12px;
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: 999px;
+        cursor: pointer;
+        background: rgba(255,255,255,.03);
+      }
+
+      .chip input {
+        accent-color: var(--accent-2);
+        transform: translateY(1px);
+      }
+
+      .radio {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        margin-right: 14px;
+      }
+
+      .radio input {
+        accent-color: var(--accent);
+      }
+
+      .hint {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      .btnbar {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        margin-top: 6px;
+      }
+
+      button {
+        border: none;
+        padding: 12px 18px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #061019;
+        box-shadow: 0 10px 24px rgba(34,211,238,.25);
+        transition: transform .06s ease-in-out, filter .2s;
+      }
+
+      button:hover { filter: brightness(1.07); }
+      button:active { transform: translateY(1px) scale(.995); }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid rgba(255,255,255,.18);
+        box-shadow: none;
+      }
+
+      .req {
+        color: var(--accent);
+        margin-left: 2px;
+      }
+
+      .success {
+        display: none;
+        margin-top: 18px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        background: rgba(16,185,129,.12);
+        border: 1px solid rgba(16,185,129,.35);
+        color: #b7f7d0;
+      }
+
+      .footer-note {
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 12px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <h1>Details Entry Form</h1>
+        <p class="lead">
+          Fill in your details below. Fields marked with <span class="req">*</span> are required.
+        </p>
+
+        <form id="detailsForm" novalidate>
+          <div class="grid">
+            <div class="col-6">
+              <label for="fullName">Full Name <span class="req">*</span></label>
+              <input id="fullName" name="fullName" type="text" placeholder="e.g., Priya Sharma" required />
+            </div>
+
+            <div class="col-6">
+              <label for="email">Email <span class="req">*</span></label>
+              <input id="email" name="email" type="email" placeholder="name@example.com" required />
+            </div>
+
+            <div class="col-6">
+              <label for="phone">Phone <span class="req">*</span></label>
+              <input id="phone" name="phone" type="tel" placeholder="+91 98765 43210"
+                     pattern="^(\+?\d{1,3}[- ]?)?\d{10}$" required />
+              <div class="hint">10 digits (add country code if needed).</div>
+            </div>
+
+            <div class="col-6">
+              <label for="dob">Date of Birth <span class="req">*</span></label>
+              <input id="dob" name="dob" type="date" required />
+            </div>
+
+            <div class="col-12">
+              <label>Gender <span class="req">*</span></label>
+              <div class="row">
+                <label class="radio"><input type="radio" name="gender" value="Female" required /> Female</label>
+                <label class="radio"><input type="radio" name="gender" value="Male" /> Male</label>
+                <label class="radio"><input type="radio" name="gender" value="Other" /> Other</label>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <label for="country">Country <span class="req">*</span></label>
+              <select id="country" name="country" required>
+                <option value="" selected disabled>Choose a country</option>
+                <option>India</option>
+                <option>United States</option>
+                <option>United Kingdom</option>
+                <option>Canada</option>
+                <option>Australia</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="col-6">
+              <label for="city">City</label>
+              <input id="city" name="city" type="text" placeholder="e.g., Hyderabad" />
+            </div>
+
+            <div class="col-12">
+              <label for="address">Address</label>
+              <textarea id="address" name="address" placeholder="Street, area, landmark"></textarea>
+            </div>
+
+            <div class="col-4">
+              <label for="state">State</label>
+              <input id="state" name="state" type="text" placeholder="e.g., Telangana" />
+            </div>
+
+            <div class="col-4">
+              <label for="zip">PIN / ZIP</label>
+              <input id="zip" name="zip" type="text" pattern="^\d{4,10}$" placeholder="e.g., 500001" />
+            </div>
+
+            <div class="col-4">
+              <label for="photo">Upload Photo</label>
+              <input id="photo" name="photo" type="file" accept="image/*" />
+              <div class="hint">PNG/JPG recommended.</div>
+            </div>
+
+            <div class="col-12">
+              <label>Skills</label>
+              <div class="chips">
+                <label class="chip"><input type="checkbox" name="skills" value="C" /> C</label>
+                <label class="chip"><input type="checkbox" name="skills" value="C++" /> C++</label>
+                <label class="chip"><input type="checkbox" name="skills" value="Python" /> Python</label>
+                <label class="chip"><input type="checkbox" name="skills" value="Java" /> Java</label>
+                <label class="chip"><input type="checkbox" name="skills" value="Web" /> Web</label>
+                <label class="chip"><input type="checkbox" name="skills" value="MATLAB" /> MATLAB</label>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="about">About You</label>
+              <textarea id="about" name="about"
+                        placeholder="Short bio, goals, or anything you'd like to share."></textarea>
+            </div>
+
+            <div class="col-12">
+              <label class="row" style="align-items:flex-start;">
+                <input type="checkbox" id="agree" name="agree" required
+                       style="margin-top:3px; accent-color: var(--accent);" />
+                <span>I confirm the details provided are correct. <span class="req">*</span></span>
+              </label>
+            </div>
+
+            <div class="col-12 btnbar">
+              <button type="reset" class="btn-secondary">Reset</button>
+              <button type="submit">Submit</button>
+            </div>
+
+            <div class="col-12 success" id="successMsg">
+              ✅ Your details were submitted successfully!
             </div>
           </div>
+        </form>
 
-          <div class="col-6">
-            <label for="country">Country <span class="req">*</span></label>
-            <select id="country" name="country" required>
-              <option value="" selected disabled>Choose a country</option>
-              <option>India</option>
-              <option>United States</option>
-              <option>United Kingdom</option>
-              <option>Canada</option>
-              <option>Australia</option>
-              <option>Other</option>
-            </select>
-          </div>
-
-          <div class="col-6">
-            <label for="city">City</label>
-            <input id="city" name="city" type="text" placeholder="e.g., Hyderabad" />
-          </div>
-
-          <div class="col-12">
-            <label for="address">Address</label>
-            <textarea id="address" name="address" placeholder="Street, area, landmark"></textarea>
-          </div>
-
-          <div class="col-4">
-            <label for="state">State</label>
-            <input id="state" name="state" type="text" placeholder="e.g., Telangana" />
-          </div>
-
-          <div class="col-4">
-            <label for="zip">PIN / ZIP</label>
-            <input id="zip" name="zip" type="text" pattern="^\d{4,10}$" placeholder="e.g., 500001" />
-          </div>
-
-          <div class="col-4">
-            <label for="photo">Upload Photo</label>
-            <input id="photo" name="photo" type="file" accept="image/*" />
-            <div class="hint">PNG/JPG recommended.</div>
-          </div>
-
-          <div class="col-12">
-            <label>Skills</label>
-            <div class="chips">
-              <label class="chip"><input type="checkbox" name="skills" value="C" /> C</label>
-              <label class="chip"><input type="checkbox" name="skills" value="C++" /> C++</label>
-              <label class="chip"><input type="checkbox" name="skills" value="Python" /> Python</label>
-              <label class="chip"><input type="checkbox" name="skills" value="Java" /> Java</label>
-              <label class="chip"><input type="checkbox" name="skills" value="Web" /> Web</label>
-              <label class="chip"><input type="checkbox" name="skills" value="MATLAB" /> MATLAB</label>
-            </div>
-          </div>
-
-          <div class="col-12">
-            <label for="about">About You</label>
-            <textarea id="about" name="about" placeholder="Short bio, goals, or anything you'd like to share."></textarea>
-          </div>
-
-          <div class="col-12">
-            <label class="row" style="align-items:flex-start;">
-              <input type="checkbox" id="agree" name="agree" required style="margin-top:3px; accent-color: var(--accent);" />
-              <span>I confirm the details provided are correct. <span class="req">*</span></span>
-            </label>
-          </div>
-
-          <div class="col-12 btnbar">
-            <button type="reset" class="btn-secondary">Reset</button>
-            <button type="submit">Submit</button>
-          </div>
-
-          <div class="col-12 success" id="successMsg"> ✅ Your details were submitted successfully!</div>
+        <div class="footer-note">
+          Tip: Submissions are saved into Google Sheets.
         </div>
-      </form>
-
-      <div class="footer-note">
-        Tip: Submissions are saved into Google Sheets.
       </div>
     </div>
-  </div>
 
-  <script>
-    const form = document.getElementById('detailsForm');
-    const success = document.getElementById('successMsg');
+    <script>
+      const form = document.getElementById('detailsForm');
+      const success = document.getElementById('successMsg');
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-      const fd = new FormData(form);
-      const data = Object.fromEntries(fd.entries());
-      data.skills = fd.getAll('skills'); // collect all checked skills
+        const fd = new FormData(form);
+        const data = Object.fromEntries(fd.entries());
+        data.skills = fd.getAll('skills'); // collect all checked skills
 
-      fetch("YOUR_SCRIPT_URL_HERE", {
-        method: "POST",
-        body: JSON.stringify(data)
-      })
-      .then(res => res.json())
-      .then(response => {
-        console.log("Success!", response);
-        success.style.display = "block";
-        form.reset();
-      })
-      .catch(err => console.error("Error!", err));
-    });
-  </script>
-</body>
+        fetch("https://script.google.com/macros/s/AKfycbzYB-U0np9OyjeCog2IviGSy3eQXnUWrR9XsI70u5YEf1z9qohsdnJT7gdC2rtdqKtM/exec", {
+          method: "POST",
+          body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(response => {
+          console.log("Success!", response);
+          success.style.display = "block";
+          form.reset();
+        })
+        .catch(err => console.error("Error!", err));
+      });
+    </script>
+  </body>
 </html>
-
